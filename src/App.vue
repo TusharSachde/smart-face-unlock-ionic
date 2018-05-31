@@ -5,14 +5,13 @@
 </template>
 
 <script>
-  import page1 from './Page1';
-  import page2 from './Page2';
+import shareAccess from "./shareAccess";
 
-  export default {
-    data() {
-      return {
-        pageStack: [page1]
-      }
-    }
+export default {
+  data() {
+    return {
+      pageStack: [shareAccess]
+    };
   }
+};
 </script>
