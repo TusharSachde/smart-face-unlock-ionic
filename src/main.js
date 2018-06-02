@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueOnsen from 'vue-onsenui';
+import axios from 'axios';
 
 import 'onsenui';
 // Onsen UI Styling and Icons
