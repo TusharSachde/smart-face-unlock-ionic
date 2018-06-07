@@ -1,0 +1,12 @@
+<ion-view view-title="Users">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon icon ion-person-add" ui-sref="tab.add-user"></button>
+  </ion-nav-buttons>
+  <ion-content>
+    <ion-list>
+      <ion-toggle ng-model="user.enabled" ng-repeat="user in users" ng-change="updateUsers(user);">
+        {{user.name}}
+      </ion-toggle>
+    </ion-list>
+  </ion-content>
+</ion-view>

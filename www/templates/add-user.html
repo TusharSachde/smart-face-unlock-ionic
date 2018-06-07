@@ -1,0 +1,7 @@
+<ion-view view-title="Add User">
+  <ion-content class="padding">
+    <img ng-src="userImage" ng-if="userImage">
+    <button class="button button-block button-positive icon-left ion-share" ng-click="shareAccess()" ng-if="userImage">Share Access</button>
+    <button class="button button-block button-calm icon-left ion-camera" ng-click="showOptions()">Add Photo</button>
+  </ion-content>
+</ion-view>

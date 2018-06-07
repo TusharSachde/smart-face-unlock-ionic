@@ -1,0 +1,172 @@
+@import "fonts";
+/*
+To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+For example, you might change some of the default colors:
+*/
+
+$tui-red: #d40e14;
+$tui-blue: #70cbf4;
+$tui-blue-25: #c2e6fa;
+$tui-blue-15: #e2f3fe;
+$tui-dark-blue: #092a5e;
+$tui-white: #ffffff;
+/* Secondary colours */
+
+$tui-green: #aad700;
+$tui-yellow: #ffe100;
+/* Achromatic colours */
+
+$tui-beige: #d7d2c3;
+$tui-beige-50: #e7e3db;
+$tui-beige-25: #f3f0ec;
+$tui-grey: #737373;
+$tui-grey-50: #b9b9b9;
+$tui-grey-25: #dcdcdc;
+$tui-black: rgb(0, 0, 0);
+/* Ionic Colors */
+
+$light: $tui-white !default;
+$stable: #f8f8f8 !default;
+$positive: $tui-dark-blue !default;
+$calm: $tui-blue !default;
+$balanced: $tui-green !default;
+$energized: $tui-yellow !default;
+$assertive: $tui-red !default;
+$royal: #987fe9 !default;
+$dark: $tui-grey !default;
+// Fonts
+$font-family-sans-serif: 'TUIType',
+'-apple-system',
+"Helvetica Neue",
+"Roboto",
+"Segoe UI",
+sans-serif !default;
+$font-family-light-sans-serif: 'TUIType',
+'-apple-system',
+"HelveticaNeue-Light",
+"Roboto-Light",
+"Segoe UI-Light",
+sans-serif-light !default;
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+// Include all of Ionic
+@import "www/lib/ionic/scss/ionic";
+.margin-0 {
+  margin: 0 !important;
+}
+
+.small-text {
+  font-size: 12px;
+  color: #868686;
+}
+
+.calm-text {
+  color: $calm;
+}
+
+.positive-text {
+  color: $positive;
+}
+
+.light-text {
+  color: $light;
+}
+
+.big-size {
+  width: 100%;
+  p {
+    margin: 10px 0 0;
+  }
+  i {
+    font-size: 100px;
+  }
+}
+
+.full-height {
+  height: calc(100vh - 92px);
+  display: flex;
+  align-items: center;
+}
+
+.centered {
+  width: 100%;
+}
+
+.bar-header .title,
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.light-calm-bg {
+  background-color: lighten($calm, 20);
+}
+
+@-webkit-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.big-size {
+  -webkit-animation: blink 4s infinite;
+  /* Safari 4+ */
+  -moz-animation: blink 4s infinite;
+  /* Fx 5+ */
+  -o-animation: blink 4s infinite;
+  /* Opera 12+ */
+  animation: blink 4s infinite;
+  /* IE 10+, Fx 29+ */
+}
+
+.item-divider {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.loading-container .loading {
+  background-color: $positive;
+}
