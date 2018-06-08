@@ -1,0 +1,28 @@
+<ion-view view-title="Settings">
+  <ion-content>
+    <div class="list">
+      <ion-item class="item-divider">
+        Setup Server
+      </ion-item>
+      <form class="item item-input-inset" ng-submit="setupServer();">
+        <label class="item-input-wrapper">
+          <input type="text" ng-model="serverIP" placeholder="URL or IP Address" required>
+        </label>
+        <button class="button button-balanced button-small" ng-disabled="!serverIP" type="submit">
+          Save
+        </button>
+      </form>
+      <ion-item class="item-divider">
+        Setup Bridge
+      </ion-item>
+      <form class="item item-input-inset" ng-submit="setupBridge();">
+        <label class="item-input-wrapper">
+          <input type="text" ng-model="bridgeIP" placeholder="URL or IP Address" required>
+        </label>
+        <button class="button button-balanced button-small" ng-disabled="!bridgeIP" type="submit">
+          Save
+        </button>
+      </form>
+    </div>
+  </ion-content>
+</ion-view>

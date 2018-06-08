@@ -170,3 +170,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .loading-container .loading {
   background-color: $positive;
 }
+
+.image-fit {
+  max-height: 400px;
+}

@@ -68,6 +68,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           }
         }
       })
+      .state('tab.lock-setting', {
+        url: '/lock-setting',
+        views: {
+          'tab-lock': {
+            templateUrl: 'templates/tab-lock-setting.html',
+            controller: 'LockSettingCtrl'
+          }
+        }
+      })
 
       .state('tab.bluetooth', {
         url: '/bluetooth',

@@ -9981,3 +9981,6 @@ a.button {
 
 .loading-container .loading {
   background-color: #092a5e; }
+
+.image-fit {
+  max-height: 400px; }

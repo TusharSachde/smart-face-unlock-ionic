@@ -8,18 +8,69 @@ angular.module('starter.controllers', [])
         duration: 10000
       });
     };
-    // $scope.showLoading();
     $scope.locked = true;
-    $scope.title = 'lock';
+
+    $scope.lockAPI = function () {
+      ApiService.lock(null, function (res) {
+        console.log(res);
+        $scope.title = 'unlock';
+      }, function (err) {
+        console.log(err);
+      });
+    };
+
+    $scope.unlockAPI = function () {
+      ApiService.unlock(null, function (res) {
+        console.log(res);
+        $scope.title = 'lock';
+      }, function (err) {
+        console.log(err);
+      });
+    };
+
+    $scope.getStatus = function () {
+      $scope.showLoading();
+      ApiService.getLockStatus(null, function (res) {
+        console.log(res);
+        $ionicLoading.hide();
+      }, function (err) {
+        console.log(err);
+        $ionicLoading.hide();
+      });
+    };
+
+    $scope.title = 'unlock';
     $scope.toggleLock = function () {
       $scope.locked = !$scope.locked;
       console.log($scope.locked);
       if ($scope.locked) {
-        $scope.title = 'lock';
+        $scope.lockAPI();
       } else {
-        $scope.title = 'unlock';
+        $scope.unlockAPI();
       }
     };
+  })
+
+  .controller('LockSettingCtrl', function ($scope, ApiService, $ionicLoading) {
+    // Loading
+    $scope.showLoading = function () {
+      $ionicLoading.show({
+        template: '<ion-spinner class="spinner-light"></ion-spinner><br>Loading...',
+        duration: 10000
+      });
+    };
+    // $scope.showLoading();
+
+    $scope.serverIP = '';
+    $scope.setupServer = function () {
+      localStorage.setItem('serverIP', $scope.serverIP);
+    };
+
+    $scope.bridgeIP = '';
+    $scope.setupBridge = function () {
+      localStorage.setItem('bridgeIP', $scope.bridgeIP);
+    };
+
   })
 
   .controller('UsersCtrl', function ($scope, ApiService, $ionicLoading) {
@@ -60,7 +111,7 @@ angular.module('starter.controllers', [])
       if (Camera) {
         cameraOptions = {
           quality: 70,
-          destinationType: Camera.DestinationType.DATA_URL,
+          destinationType: Camera.DestinationType.FILE_URI,
           sourceType: sourceType, // Camera.PictureSourceType.CAMERA or PHOTOLIBRARY
           encodingType: Camera.EncodingType.JPEG,
           targetItemWidth: 900,
@@ -73,6 +124,7 @@ angular.module('starter.controllers', [])
           function (imageData) {
             console.log(imageData);
             $scope.userImage = imageData;
+            $scope.$apply();
           },
           function (err) {
             console.log(err);
@@ -83,10 +135,20 @@ angular.module('starter.controllers', [])
 
     };
 
+    $scope.uploadImage = function (data) {
+      ApiService.FileTransfer(data, function (res) {
+        // Success
+      }, function (err) {
+        // Error
+      }, function (progress) {
+        // constant progress updates
+      });
+    };
+
     // Show the action sheet
     $scope.showOptions = function () {
       // Show the action sheet
-      var hideSheet = $ionicActionSheet.show({
+      $ionicActionSheet.show({
         buttons: [{
             text: 'Open Camera'
           },
