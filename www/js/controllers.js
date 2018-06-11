@@ -10,18 +10,19 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
     };
 
     $scope.getStatus = function () {
-      $scope.title = 'unlock';
-      $scope.locked = true;
+      $scope.showLoading();
       ApiService.getLockStatus({}, function (res) {
         console.log(res);
-        if (res.data.data.stateName === "locked") {
+        $ionicLoading.hide();
+        if (res.data.data.data.stateName === "locked") {
           $scope.title = 'unlock';
           $scope.locked = true;
-        } else if (res.data.data.stateName === "unlocked") {
+        } else if (res.data.data.data.stateName === "unlocked") {
           $scope.title = 'lock';
           $scope.locked = false;
         }
       }, function (err) {
+        $ionicLoading.hide();
         console.log(err);
       });
     };
@@ -52,21 +53,9 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
       });
     };
 
-    $scope.getStatus = function () {
-      $scope.showLoading();
-      ApiService.getLockStatus(null, function (res) {
-        console.log(res);
-        $ionicLoading.hide();
-      }, function (err) {
-        console.log(err);
-        $ionicLoading.hide();
-      });
-    };
-
-
     $scope.toggleLock = function () {
       $scope.showLoading();
-      if ($scope.locked) {
+      if (!$scope.locked) {
         $scope.lockAPI();
       } else {
         $scope.unlockAPI();
@@ -169,9 +158,17 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
     $scope.shareAccess = function (data) {
 
       if ($scope.userImage) {
-        ApiService.FileTransfer($scope.userImage, data, function (res) {
+        ApiService.FileTransfer($scope.userImage, function (res) {
           // Success
           console.log(res);
+          ApiService.addUser({
+            _id: res.data[0],
+            name: data.name
+          }, function (res) {
+            console.log(res);
+          }, function (err) {
+            console.log(err);
+          });
         }, function (err) {
           // Error
           console.log(err);

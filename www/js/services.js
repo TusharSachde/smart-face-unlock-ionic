@@ -25,9 +25,8 @@ angular.module('starter.services', [])
           data: data
         }).then(success).catch(err);
       },
-      FileTransfer: function (imageUrl, data, success, err, progress) {
-        console.log(imageUrl, data);
-        $cordovaFileTransfer.upload(apiURL + 'Face/train', imageUrl, data)
+      FileTransfer: function (imageUrl, success, err, progress) {
+        $cordovaFileTransfer.upload(apiURL + 'Upload/index', imageUrl)
           .then(function (s) {
             // Success!
             success(s);
@@ -38,6 +37,13 @@ angular.module('starter.services', [])
             // constant progress updates
             progress(p);
           });
+      },
+      addUser: function (data, success, err) {
+        $http({
+          method: 'POST',
+          url: apiURL + 'Face/train',
+          data: data
+        }).then(success).catch(err);
       },
       updateUser: function (data, success, err) {
         $http({
