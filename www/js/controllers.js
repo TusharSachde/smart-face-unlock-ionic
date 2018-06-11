@@ -160,9 +160,10 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
       if ($scope.userImage) {
         ApiService.FileTransfer($scope.userImage, function (res) {
           // Success
-          console.log(res);
+          var _id = JSON.parse(res.response);
+          console.log(_id);
           ApiService.addUser({
-            _id: res.data[0],
+            _id: _id,
             name: data.name
           }, function (res) {
             console.log(res);
