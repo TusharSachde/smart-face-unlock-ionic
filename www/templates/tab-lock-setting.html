@@ -4,7 +4,7 @@
       <ion-item class="item-divider">
         Setup Server
       </ion-item>
-      <form class="item item-input-inset" ng-submit="setupServer();">
+      <form class="item item-input-inset" ng-submit="setupServer(serverIP);">
         <label class="item-input-wrapper">
           <input type="text" ng-model="serverIP" placeholder="URL or IP Address" required>
         </label>
@@ -12,17 +12,17 @@
           Save
         </button>
       </form>
-      <ion-item class="item-divider">
+      <!-- <ion-item class="item-divider">
         Setup Bridge
       </ion-item>
-      <form class="item item-input-inset" ng-submit="setupBridge();">
+      <form class="item item-input-inset" ng-submit="setupBridge(bridgeIP);">
         <label class="item-input-wrapper">
           <input type="text" ng-model="bridgeIP" placeholder="URL or IP Address" required>
         </label>
         <button class="button button-balanced button-small" ng-disabled="!bridgeIP" type="submit">
           Save
         </button>
-      </form>
+      </form> -->
     </div>
   </ion-content>
 </ion-view>

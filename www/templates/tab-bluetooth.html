@@ -7,15 +7,15 @@
         <input type="text" placeholder="First Name" ng-model="btForm.name" required>
       </label>
       <label class="item item-input">
-        <input type="text" placeholder="Bluetooth Address (eg. 00:00:00:00:00:00)" ng-model="btForm.mac" required>
+        <input type="text" placeholder="Bluetooth Address (eg. 00:00:00:00:00:00)" ng-model="btForm.macAddress" required>
       </label>
       <ion-item class="padding">
-        <button class="button button-block button-positive button-small margin-0" type="button" ng-click="addMore(btForm);">Add More</button>
+        <button class="button button-block button-positive button-small margin-0" type="button" ng-click="addMore(btForm);" ng-disabled="!btForm.name || !btForm.macAddress">Add More</button>
       </ion-item>
       <ion-item class="item-divider">User List</ion-item>
       <ion-toggle ng-model="user.enabled" ng-repeat="user in bluetoothUsers" ng-change="updateUsers(user);">
         {{user.name}}
-        <span class="small-text">({{user.mac}})</span>
+        <span class="small-text">({{user.macAddress}})</span>
       </ion-toggle>
     </ion-list>
   </ion-content>

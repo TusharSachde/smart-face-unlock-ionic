@@ -6,10 +6,11 @@
       </div>
       <div class="list margin-0">
         <label class="item item-input">
-          <input type="text" placeholder="First Name" ng-model="name" required>
+          <input type="text" placeholder="First Name" ng-model="faceData.name" required>
         </label>
       </div>
-      <button class="button button-block button-positive icon-left ion-share" ng-click="shareAccess()" type="submit">Share Access</button>
+      <button class="button button-block button-positive icon-left ion-share" ng-click="shareAccess(faceData)" ng-disabled="!faceData.name"
+        type="submit">Share Access</button>
     </form>
     <button class="button button-block button-calm icon-left ion-camera" ng-click="showOptions()">Add Photo</button>
   </ion-content>

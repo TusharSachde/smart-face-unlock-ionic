@@ -1,73 +1,33 @@
 var serverURL = localStorage.getItem('serverIP');
 var apiURL = serverURL ? serverURL : '';
+apiURL = apiURL + '/api/';
 angular.module('starter.services', [])
-  .factory('ApiService', function ($http) {
+  .factory('ApiService', function ($http, $cordovaFileTransfer) {
     return {
       unlock: function (data, success, err) {
         $http({
           method: 'POST',
-          url: apiURL + '',
-          params: data
+          url: apiURL + 'Nukilock/unlockNukilock',
+          data: data
         }).then(success).catch(err);
       },
       lock: function (data, success, err) {
         $http({
           method: 'POST',
-          url: apiURL + '',
-          params: data
+          url: apiURL + 'Nukilock/lockNukilock',
+          data: data
         }).then(success).catch(err);
       },
       getLockStatus: function (data, success, err) {
         $http({
           method: 'POST',
-          url: apiURL + '',
-          params: data
+          url: apiURL + 'Nukilock/getNukilockState',
+          data: data
         }).then(success).catch(err);
       },
-      updateUser: function (data, success, err) {
-        $http({
-          method: 'POST',
-          url: apiURL + '',
-          params: data
-        }).then(success).catch(err);
-      },
-      getUsers: function (data, success, err) {
-        $http({
-          method: 'POST',
-          url: apiURL + '',
-          params: data
-        }).then(success).catch(err);
-      },
-      addUser: function (data, success, err) {
-        $http({
-          method: 'POST',
-          url: apiURL + '',
-          params: data
-        }).then(success).catch(err);
-      },
-      updateBluetoothUser: function (data, success, err) {
-        $http({
-          method: 'POST',
-          url: apiURL + '',
-          params: data
-        }).then(success).catch(err);
-      },
-      addBluetoothUser: function (data, success, err) {
-        $http({
-          method: 'POST',
-          url: apiURL + '',
-          params: data
-        }).then(success).catch(err);
-      },
-      getBluetoothUser: function (data, success, err) {
-        $http({
-          method: 'POST',
-          url: apiURL + '',
-          params: data
-        }).then(success).catch(err);
-      },
-      FileTransfer: function (data, success, err, progress) {
-        $cordovaFileTransfer.upload(apiURL + '', data.imageURL)
+      FileTransfer: function (imageUrl, data, success, err, progress) {
+        console.log(imageUrl, data);
+        $cordovaFileTransfer.upload(apiURL + 'Face/train', imageUrl, data)
           .then(function (s) {
             // Success!
             success(s);
@@ -78,6 +38,42 @@ angular.module('starter.services', [])
             // constant progress updates
             progress(p);
           });
-      }
+      },
+      updateUser: function (data, success, err) {
+        $http({
+          method: 'POST',
+          url: apiURL + 'Face/update',
+          data: data
+        }).then(success).catch(err);
+      },
+      getUsers: function (data, success, err) {
+        $http({
+          method: 'POST',
+          url: apiURL + 'Face/getUsers',
+          data: data
+        }).then(success).catch(err);
+      },
+      updateBluetoothUser: function (data, success, err) {
+        $http({
+          method: 'POST',
+          url: apiURL + 'Bluetooth/update',
+          data: data
+        }).then(success).catch(err);
+      },
+      addBluetoothUser: function (data, success, err) {
+        $http({
+          method: 'POST',
+          url: apiURL + 'Bluetooth/save',
+          data: data
+        }).then(success).catch(err);
+      },
+      getBluetoothUsers: function (data, success, err) {
+        $http({
+          method: 'POST',
+          url: apiURL + 'Bluetooth/getUsers',
+          data: data
+        }).then(success).catch(err);
+      },
+
     };
   });

@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
 
   .controller('LockCtrl', function ($scope, ApiService, $ionicLoading) {
     // Loading
@@ -8,13 +8,34 @@ angular.module('starter.controllers', [])
         duration: 10000
       });
     };
-    $scope.locked = true;
+
+    $scope.getStatus = function () {
+      $scope.title = 'unlock';
+      $scope.locked = true;
+      ApiService.getLockStatus({}, function (res) {
+        console.log(res);
+        if (res.data.data.stateName === "locked") {
+          $scope.title = 'unlock';
+          $scope.locked = true;
+        } else if (res.data.data.stateName === "unlocked") {
+          $scope.title = 'lock';
+          $scope.locked = false;
+        }
+      }, function (err) {
+        console.log(err);
+      });
+    };
+
+    $scope.getStatus();
 
     $scope.lockAPI = function () {
       ApiService.lock(null, function (res) {
         console.log(res);
+        $ionicLoading.hide();
         $scope.title = 'unlock';
+        $scope.locked = true;
       }, function (err) {
+        $ionicLoading.hide();
         console.log(err);
       });
     };
@@ -22,8 +43,11 @@ angular.module('starter.controllers', [])
     $scope.unlockAPI = function () {
       ApiService.unlock(null, function (res) {
         console.log(res);
+        $ionicLoading.hide();
         $scope.title = 'lock';
+        $scope.locked = false;
       }, function (err) {
+        $ionicLoading.hide();
         console.log(err);
       });
     };
@@ -39,10 +63,9 @@ angular.module('starter.controllers', [])
       });
     };
 
-    $scope.title = 'unlock';
+
     $scope.toggleLock = function () {
-      $scope.locked = !$scope.locked;
-      console.log($scope.locked);
+      $scope.showLoading();
       if ($scope.locked) {
         $scope.lockAPI();
       } else {
@@ -51,7 +74,7 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('LockSettingCtrl', function ($scope, ApiService, $ionicLoading) {
+  .controller('LockSettingCtrl', function ($scope, $ionicLoading) {
     // Loading
     $scope.showLoading = function () {
       $ionicLoading.show({
@@ -61,14 +84,16 @@ angular.module('starter.controllers', [])
     };
     // $scope.showLoading();
 
-    $scope.serverIP = '';
-    $scope.setupServer = function () {
-      localStorage.setItem('serverIP', $scope.serverIP);
+    var serverIP = localStorage.getItem('serverIP');
+    $scope.serverIP = serverIP ? serverIP : '';
+    $scope.setupServer = function (data) {
+      if (data) localStorage.setItem('serverIP', data);
     };
 
-    $scope.bridgeIP = '';
-    $scope.setupBridge = function () {
-      localStorage.setItem('bridgeIP', $scope.bridgeIP);
+    var bridgeIP = localStorage.getItem('bridgeIP');
+    $scope.bridgeIP = bridgeIP ? bridgeIP : '';
+    $scope.setupBridge = function (data) {
+      if (data) localStorage.setItem('bridgeIP', data);
     };
 
   })
@@ -82,13 +107,18 @@ angular.module('starter.controllers', [])
       });
     };
     // $scope.showLoading();
-    $scope.users = [{
-      name: "Tushar",
-      enabled: true
-    }, {
-      name: "Chintan",
-      enabled: false
-    }];
+    $scope.users = [];
+
+    $scope.getUsers = function () {
+      ApiService.getUsers({}, function (res) {
+        console.log(res.data.data);
+        $scope.users = res.data.data;
+      }, function (err) {
+        console.log(err);
+      });
+    };
+
+    $scope.getUsers();
 
     $scope.updateUsers = function (data) {
       console.log(data);
@@ -135,14 +165,22 @@ angular.module('starter.controllers', [])
 
     };
 
-    $scope.uploadImage = function (data) {
-      ApiService.FileTransfer(data, function (res) {
-        // Success
-      }, function (err) {
-        // Error
-      }, function (progress) {
-        // constant progress updates
-      });
+    $scope.faceData = {};
+    $scope.shareAccess = function (data) {
+
+      if ($scope.userImage) {
+        ApiService.FileTransfer($scope.userImage, data, function (res) {
+          // Success
+          console.log(res);
+        }, function (err) {
+          // Error
+          console.log(err);
+        }, function (progress) {
+          // constant progress updates
+          // console.log(progress);
+        });
+      }
+
     };
 
     // Show the action sheet
@@ -184,10 +222,32 @@ angular.module('starter.controllers', [])
         duration: 10000
       });
     };
-    // $scope.showLoading();
 
-    $scope.bluetoothUsers = [{
-      name: "Tushar",
-      mac: "E1:F6:FA:88:C3:36"
-    }];
+    $scope.bluetoothUsers = [];
+
+    $scope.getUsers = function () {
+      ApiService.getBluetoothUsers({}, function (res) {
+        console.log(res.data.data);
+        $scope.bluetoothUsers = res.data.data;
+      }, function (err) {
+        console.log(err);
+      });
+    };
+
+    $scope.getUsers();
+
+    $scope.btForm = {};
+    $scope.addMore = function (data) {
+      $scope.showLoading();
+      ApiService.addBluetoothUser(data, function (res) {
+        console.log(res);
+        $ionicLoading.hide();
+        $scope.getUsers();
+        $scope.btForm = {};
+      }, function (err) {
+        console.log(err);
+        $ionicLoading.hide();
+      });
+    };
+
   });
