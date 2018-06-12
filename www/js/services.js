@@ -26,6 +26,7 @@ angular.module('starter.services', [])
         }).then(success).catch(err);
       },
       FileTransfer: function (imageUrl, success, err, progress) {
+        console.log(imageUrl, apiURL + 'Upload/index');
         $cordovaFileTransfer.upload(apiURL + 'Upload/index', imageUrl)
           .then(function (s) {
             // Success!

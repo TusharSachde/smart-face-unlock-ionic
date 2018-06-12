@@ -114,12 +114,12 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
     };
   })
 
-  .controller('AddUserCtrl', function ($scope, $stateParams, ApiService, $ionicActionSheet, $ionicLoading) {
+  .controller('AddUserCtrl', function ($scope, $state, ApiService, $ionicActionSheet, $ionicLoading) {
     // Loading
     $scope.showLoading = function () {
       $ionicLoading.show({
         template: '<ion-spinner class="spinner-light"></ion-spinner><br>Loading...',
-        duration: 10000
+        duration: 1000000
       });
     };
     // $scope.showLoading();
@@ -129,11 +129,11 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
 
       if (Camera) {
         cameraOptions = {
-          quality: 70,
+          quality: 30,
           destinationType: Camera.DestinationType.FILE_URI,
           sourceType: sourceType, // Camera.PictureSourceType.CAMERA or PHOTOLIBRARY
           encodingType: Camera.EncodingType.JPEG,
-          targetItemWidth: 900,
+          targetWidth: 900,
           correctOrientation: true
         };
       }
@@ -144,6 +144,19 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
             console.log(imageData);
             $scope.userImage = imageData;
             $scope.$apply();
+
+            ApiService.FileTransfer(imageData, function (res) {
+              // Success
+              console.log(res);
+              $scope.imgId = JSON.parse(res.response);
+            }, function (err) {
+              // Error
+              console.log(err);
+            }, function (progress) {
+              // constant progress updates
+              // console.log(progress);
+            });
+
           },
           function (err) {
             console.log(err);
@@ -156,29 +169,29 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
 
     $scope.faceData = {};
     $scope.shareAccess = function (data) {
+      $scope.showLoading();
+      ApiService.addUser({
+        _id: $scope.imgId.data[0],
+        name: data.name
+      }, function (res) {
+        console.log(res);
+        $ionicLoading.hide();
+        if (res.data.value) {
+          $state.go('tab.users');
+        } else {
+          if (res.data.error) {
+            $ionicLoading.show({
+              template: res.data.error,
+              duration: 2000
+            });
+          }
+        }
 
-      if ($scope.userImage) {
-        ApiService.FileTransfer($scope.userImage, function (res) {
-          // Success
-          var _id = JSON.parse(res.response);
-          console.log(_id);
-          ApiService.addUser({
-            _id: _id,
-            name: data.name
-          }, function (res) {
-            console.log(res);
-          }, function (err) {
-            console.log(err);
-          });
-        }, function (err) {
-          // Error
-          console.log(err);
-        }, function (progress) {
-          // constant progress updates
-          // console.log(progress);
-        });
-      }
 
+      }, function (err) {
+        console.log(err);
+        $ionicLoading.hide();
+      });
     };
 
     // Show the action sheet
