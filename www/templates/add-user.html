@@ -1,4 +1,4 @@
-<ion-view view-title="Add User">
+<ion-view view-title="Complete Booking">
   <ion-content class="padding">
     <form ng-submit="" ng-if="userImage">
       <div class="text-center">
@@ -8,9 +8,12 @@
         <label class="item item-input">
           <input type="text" placeholder="First Name" ng-model="faceData.name" required>
         </label>
+        <label class="item item-input">
+          <input type="tel" placeholder="Phone Number (eg.+44812345678)" ng-model="faceData.contact" required>
+        </label>
       </div>
-      <button class="button button-block button-positive icon-left ion-share" ng-click="shareAccess(faceData)" ng-disabled="!faceData.name"
-        type="submit">Share Access</button>
+      <button class="button button-block button-positive icon-left ion-share" ng-click="shareAccess(faceData)" ng-disabled="!faceData.name && !faceData.contact"
+        type="submit">Complete Booking</button>
     </form>
     <button class="button button-block button-calm icon-left ion-camera" ng-click="showOptions()">Add Photo</button>
   </ion-content>

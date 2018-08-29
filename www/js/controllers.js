@@ -63,7 +63,7 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
     };
   })
 
-  .controller('LockSettingCtrl', function ($scope, $ionicLoading) {
+  .controller('LockSettingCtrl', function ($scope, $ionicLoading, ApiService) {
     // Loading
     $scope.showLoading = function () {
       $ionicLoading.show({
@@ -76,7 +76,7 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
     var serverIP = localStorage.getItem('serverIP');
     $scope.serverIP = serverIP ? serverIP : '';
     $scope.setupServer = function (data) {
-      if (data) localStorage.setItem('serverIP', data);
+      if (data) ApiService.setServerURL(data);
     };
 
     var bridgeIP = localStorage.getItem('bridgeIP');
@@ -99,18 +99,29 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
     $scope.users = [];
 
     $scope.getUsers = function () {
+      $scope.showLoading();
       ApiService.getUsers({}, function (res) {
         console.log(res.data.data);
         $scope.users = res.data.data;
+        $ionicLoading.hide();
       }, function (err) {
         console.log(err);
+        $ionicLoading.hide();
       });
     };
 
     $scope.getUsers();
 
     $scope.updateUsers = function (data) {
+      $scope.showLoading();
       console.log(data);
+      ApiService.updateUser(data, function (res) {
+        console.log(res);
+        $ionicLoading.hide();
+      }, function (err) {
+        console.log(err);
+        $ionicLoading.hide();
+      });
     };
   })
 
@@ -172,7 +183,8 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
       $scope.showLoading();
       ApiService.addUser({
         _id: $scope.imgId.data[0],
-        name: data.name
+        name: data.name,
+        contact: data.contact
       }, function (res) {
         console.log(res);
         $ionicLoading.hide();
@@ -237,11 +249,14 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
     $scope.bluetoothUsers = [];
 
     $scope.getUsers = function () {
+      $scope.showLoading();
       ApiService.getBluetoothUsers({}, function (res) {
         console.log(res.data.data);
         $scope.bluetoothUsers = res.data.data;
+        $ionicLoading.hide();
       }, function (err) {
         console.log(err);
+        $ionicLoading.hide();
       });
     };
 
@@ -255,6 +270,18 @@ angular.module('starter.controllers', ['ngCordova.plugins.fileTransfer'])
         $ionicLoading.hide();
         $scope.getUsers();
         $scope.btForm = {};
+      }, function (err) {
+        console.log(err);
+        $ionicLoading.hide();
+      });
+    };
+
+    $scope.updateUsers = function (data) {
+      $scope.showLoading();
+      console.log(data);
+      ApiService.updateBluetoothUser(data, function (res) {
+        console.log(res);
+        $ionicLoading.hide();
       }, function (err) {
         console.log(err);
         $ionicLoading.hide();

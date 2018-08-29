@@ -1,9 +1,20 @@
 var serverURL = localStorage.getItem('serverIP');
-var apiURL = serverURL ? serverURL : '';
-apiURL = apiURL + '/api/';
+var apiURL;
+
+function setupServer(URL) {
+  apiURL = URL ? URL : '';
+  apiURL = apiURL + '/api/';
+}
+
+setupServer(serverURL);
+
 angular.module('starter.services', [])
   .factory('ApiService', function ($http, $cordovaFileTransfer) {
     return {
+      setServerURL: function (URL) {
+        localStorage.setItem('serverIP', URL);
+        setupServer(URL);
+      },
       unlock: function (data, success, err) {
         $http({
           method: 'POST',
@@ -49,7 +60,7 @@ angular.module('starter.services', [])
       updateUser: function (data, success, err) {
         $http({
           method: 'POST',
-          url: apiURL + 'Face/update',
+          url: apiURL + 'Face/updateUser',
           data: data
         }).then(success).catch(err);
       },
@@ -63,7 +74,7 @@ angular.module('starter.services', [])
       updateBluetoothUser: function (data, success, err) {
         $http({
           method: 'POST',
-          url: apiURL + 'Bluetooth/update',
+          url: apiURL + 'Bluetooth/updateUser',
           data: data
         }).then(success).catch(err);
       },
